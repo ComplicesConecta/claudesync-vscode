@@ -1,137 +1,113 @@
-<!-- small hack to not make the logo show up in the marketplace -->
-<h1>
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=rexdotsh.claudesync" style="display: none;">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rexdotsh/claudesync-vscode/main/assets/logo.png" width="128">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/rexdotsh/claudesync-vscode/main/assets/logo.png" width="128">
-      <img src="https://raw.githubusercontent.com/rexdotsh/claudesync-vscode/main/assets/logo.png" alt="Logo">
-    </picture>
-  </a>
-  <br>ClaudeSync
-</h1>
-  <p align="center">
-    Sync your code easily with Claude.ai Projects without leaving your IDE.
-    <br />
-    <a href="https://marketplace.visualstudio.com/items?itemName=rexdotsh.claudesync">Download</a>
-    ·
-    <a href="#quick-start-guide">Quick Start</a>
-    ·
-    <a href="#configuration">Configuration</a>
-  </p>
-</p>
+# ComplicesConecta
 
-## About
+## 📋 Descripción del Proyecto
 
-One of the most underrated features of Claude.ai is "projects". You can sync your code with a project, and then simply talk to Claude about your code, without needing to worry about supplying context. ChatGPT has a similar feature, but only works with their "4o" model as of now, and is not as good as Claude.
+ComplicesConecta es una plataforma que integra aplicaciones web y móvil utilizando una arquitectura monorepo con PNPM workspaces. El proyecto está estructurado para compartir código entre diferentes aplicaciones y mantener una organización clara de los componentes.
 
-Claude Sync aims to make it easier to use Claude.ai projects by directly letting you sync your code from your IDE, with features like auto-syncing, exclude/include files, and more.
+## 🚀 Estructura del Proyecto
 
-> Inspired by [ClaudeSync](https://github.com/jahwag/ClaudeSync) by jahwag.
-
-## Quick Start Guide
-
-> [!NOTE]
-> This extension requires a Claude.ai account with the **Pro** plan.
-
-### 1. Install the Extension
-
-You can install ClaudeSync directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=rexdotsh.claudesync)!
-
-### 2. Get Your Claude Token
-
-To connect ClaudeSync with your Claude.ai account, you'll need your session token. Here's how to get it:
-
-1. Visit [claude.ai](https://claude.ai) and sign in to your account.
-2. Open Developer Tools:
-   - Windows/Linux: `F12` or `Ctrl+Shift+I`
-   - Mac: `Cmd+Option+I`
-3. Navigate to: `Application → Cookies → claude.ai → sessionKey`
-4. Copy the token value (starts with "sk-ant")
-
-> Tip: Make sure you copy the raw token value, not the URL-encoded version!
-
-### 3. Configure the Extension
-
-1. Open the Command Palette in VS Code:
-   - Windows/Linux: `Ctrl+Shift+P`
-   - Mac: `Cmd+Shift+P`
-2. Type "ClaudeSync: Set Token"
-3. Paste your Claude session token
-4. You're ready to go!
-
-## Available Commands
-
-Access these commands through the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
-
-| Command                                     | Description                                   |
-| ------------------------------------------- | --------------------------------------------- |
-| `ClaudeSync: Set Token`                     | Configure your Claude session token           |
-| `ClaudeSync: Initialize Project`            | Set up a new Claude project for the workspace |
-| `ClaudeSync: Sync Current File`             | Sync the active file                          |
-| `ClaudeSync: Sync Workspace`                | Sync all workspace files                      |
-| `ClaudeSync: Configure Auto-sync`           | Manage automatic file syncing                 |
-| `ClaudeSync: Configure Startup Sync`        | Control syncing on VS Code startup            |
-| `ClaudeSync: Sync Project Instructions`     | Update project instructions                   |
-| `ClaudeSync: Open in Browser`               | View project in Claude.ai's Web UI            |
-| `ClaudeSync: Configure Remote File Cleanup` | Configure cleanup of remote files             |
-| `ClaudeSync: Show Current Settings`         | Display current extension settings            |
-| `ClaudeSync: Exclude from Sync`             | Exclude specific files from syncing           |
-| `ClaudeSync: Include in Sync`               | Include previously excluded files in syncing  |
-| `ClaudeSync: Show Output Channel`           | Show the extension's output/logs              |
-| `ClaudeSync: Update Project Instructions`   | Update project instructions in Claude.ai      |
-| `ClaudeSync: Toggle Auto-Add to Gitignore`  | Toggle automatic .gitignore management        |
-
-## Configuration
-
-Customize ClaudeSync through `.vscode/claudesync.json` for workspace settings and VS Code's settings for global options:
-
-```json
-{
-  "excludePatterns": [
-    "node_modules/**",
-    ".git/**",
-    "dist/**",
-    "build/**",
-    "**/*.pyc",
-    "**/__pycache__/**",
-    ".env"
-    // ... many other patterns
-  ],
-  "maxFileSize": 2097152, // 2MB
-  "autoSync": false,
-  "autoSyncInterval": 30,
-  "syncOnStartup": false,
-  "cleanupRemoteFiles": false
-}
+```
+complicesconecta/
+├── apps/
+│   ├── mobile/       # Aplicación móvil (React Native)
+│   └── web/          # Aplicación web (Next.js)
+├── packages/
+│   ├── eslint-config/ # Configuración compartida de ESLint
+│   ├── shared/        # Código compartido entre aplicaciones
+│   └── tsconfig/     # Configuración compartida de TypeScript
+├── docs/             # Documentación del proyecto
+└── scripts/          # Scripts de utilidad
 ```
 
-### Configuration Options
+## 🔧 Requisitos Previos
 
-| Option               | Description                                             | Default           | Scope     |
-| -------------------- | ------------------------------------------------------- | ----------------- | --------- |
-| `sessionToken`       | Claude.ai session token for authentication              | `""`              | Global    |
-| `addToGitignore`     | Automatically add claudesync.json to .gitignore         | `true`            | Global    |
-| `excludePatterns`    | Glob patterns for excluded files                        | See example above | Workspace |
-| `maxFileSize`        | Maximum file size in bytes                              | `2097152` (2MB)   | Workspace |
-| `autoSync`           | Enable automatic file syncing                           | `false`           | Workspace |
-| `autoSyncInterval`   | Delay in seconds between auto-syncs (min: 10, max: 180) | `30`              | Workspace |
-| `syncOnStartup`      | Sync workspace when VS Code starts                      | `false`           | Workspace |
-| `cleanupRemoteFiles` | Remove remote files that don't exist locally            | `true`            | Workspace |
+- Node.js (versión recomendada: 18.x o superior)
+- PNPM (versión 10.x o superior)
 
-## Project Instructions
+## 🛠️ Instalación
 
-Need to give Claude specific instructions for your project? Create a `.projectinstructions` file in your workspace root. These instructions sync when initializing a new project, or when running "Sync Project Instructions" manually.
+1. Clonar el repositorio:
 
-## Contributing
+```bash
+git clone <url-del-repositorio>
+cd complicesconecta
+```
 
-Feel free to contribute to this project by opening an issue or submitting a pull request.
+2. Instalar dependencias:
 
-## License
+```bash
+pnpm install --ignore-scripts
+```
 
-ClaudeSync is open source software licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+> **Nota**: Utilizamos `--ignore-scripts` para evitar errores durante la instalación inicial. El script postinstall intenta construir todos los paquetes, pero puede fallar si hay dependencias entre ellos.
 
----
+## 🖥️ Ejecución de la Aplicación Web
 
-> [!WARNING]
-> This extension is not officially affiliated with Anthropic's Claude.ai service.
+```bash
+pnpm run dev:web
+```
+
+Esto iniciará el servidor de desarrollo de Next.js en http://localhost:3000.
+
+## 📱 Ejecución de la Aplicación Móvil
+
+```bash
+pnpm run dev:mobile
+```
+
+Para ejecutar en plataformas específicas:
+
+```bash
+pnpm --filter @complicesconecta/mobile run android  # Para Android
+pnpm --filter @complicesconecta/mobile run ios      # Para iOS
+pnpm --filter @complicesconecta/mobile run web      # Para versión web
+```
+
+## 🧪 Pruebas
+
+```bash
+pnpm run test        # Ejecutar todas las pruebas
+pnpm run test:web    # Ejecutar pruebas de la aplicación web
+pnpm run test:mobile # Ejecutar pruebas de la aplicación móvil
+```
+
+## 🧹 Lint y Formateo
+
+```bash
+pnpm run lint      # Ejecutar lint en todos los proyectos
+pnpm run lint:fix  # Corregir problemas de lint automáticamente
+```
+
+## 🏗️ Construcción
+
+```bash
+pnpm run build      # Construir todos los proyectos
+pnpm run build:web  # Construir solo la aplicación web
+pnpm run build:mobile # Construir solo la aplicación móvil
+```
+
+## 🧼 Limpieza
+
+```bash
+pnpm run clean         # Limpiar archivos de construcción
+pnpm run clean:modules # Eliminar node_modules
+pnpm run clean:cache   # Limpiar caché de PNPM
+```
+
+## 📝 Estado Actual del Proyecto
+
+El proyecto está en desarrollo activo. La aplicación web está funcionando y puede ser accedida en http://localhost:3000 después de iniciar el servidor de desarrollo.
+
+Actualmente hay algunos problemas con el script de construcción del paquete `shared` que deben ser resueltos.
+
+## 📚 Documentación Adicional
+
+Para más información, consulta los archivos en el directorio `docs/`:
+
+- [Análisis del Proyecto](docs/ANALISIS_PROYECTO.md)
+- [Guía Completa](docs/GUIA_COMPLETA_COMPLICESCONECTA.md)
+- [Estructura](docs/ESTRUCTURACC.md)
+
+## 🤝 Contribución
+
+Consulta [CONTRIBUTING.md](docs/CONTRIBUTING.md) para obtener información sobre cómo contribuir al proyecto.
